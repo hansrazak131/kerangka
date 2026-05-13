@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kerangka Dasar Vertikal — © Egi Nugraha</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#04070c;--bg2:#070c14;--bg3:#0b1320;
+  --card:#0e1824;--card2:#111e2c;
+  --border:#182840;--border2:#1f3450;
+  --teal:#00e5c8;--teal2:#00b8a0;--teal3:#007a6b;
+  --gold:#f0b429;--gold2:#d49617;
+  --blue:#4da6ff;--green:#22c55e;--red:#ef4444;
+  --orange:#f97316;--yellow:#eab308;--purple:#a78bfa;--cyan:#22d3ee;
+  --text:#ddeef8;--text2:#7aa8be;--text3:#3d6478;
+  --mono:'JetBrains Mono',monospace;
+  --sans:'Inter',sans-serif;
+  --head:'Syne',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(0,229,200,.03) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(0,229,200,.03) 1px,transparent 1px);
+  background-size:36px 36px}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 80% 40% at 50% -5%,rgba(0,180,160,.07),transparent)}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:300;background:rgba(4,7,12,.97);
+  backdrop-filter:blur(20px);border-bottom:1px solid var(--border);
+  height:56px;display:flex;align-items:center;padding:0 24px;gap:16px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:34px;height:34px;border-radius:8px;
+  background:linear-gradient(135deg,var(--teal),var(--teal3));
+  display:grid;place-items:center;
+  font-family:var(--mono);font-size:11px;font-weight:700;color:#000;letter-spacing:-1px}
+.logo-wrap{display:flex;flex-direction:column;gap:1px}
+.logo-name{font-family:var(--head);font-size:15px;font-weight:800;color:var(--text);line-height:1}
+.logo-tag{font-family:var(--mono);font-size:9px;color:var(--teal2);letter-spacing:2px;text-transform:uppercase}
+.hdr-div{width:1px;height:28px;background:var(--border2)}
+.hdr-title{font-family:var(--head);font-size:13px;font-weight:600;color:var(--text2)}
+.hdr-space{flex:1}
+.hdr-copy{font-family:var(--mono);font-size:10px;color:var(--text3)}
+.hdr-copy b{color:var(--teal2)}
+.hdr-ver{font-family:var(--mono);font-size:9px;color:var(--teal3);
+  border:1px solid var(--teal3);border-radius:4px;padding:2px 7px}
+
+/* WRAP */
+.wrap{max-width:1440px;margin:0 auto;padding:24px 20px 80px;position:relative;z-index:1}
+
+/* MAIN TABS */
+.main-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:24px}
+.main-tab{display:flex;align-items:center;gap:8px;padding:11px 22px;
+  background:none;border:none;border-bottom:2px solid transparent;
+  color:var(--text3);font-family:var(--mono);font-size:11px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;margin-bottom:-1px;
+  transition:all .15s}
+.main-tab .tab-dot{width:7px;height:7px;border-radius:50%;background:var(--border2)}
+.main-tab.on{color:var(--teal);border-bottom-color:var(--teal)}
+.main-tab.on .tab-dot{background:var(--teal)}
+.main-tab:hover:not(.on){color:var(--text2)}
+.main-tab.tab-pulang.on{color:var(--gold);border-bottom-color:var(--gold)}
+.main-tab.tab-pulang.on .tab-dot{background:var(--gold)}
+.main-tab.tab-compare.on{color:var(--purple);border-bottom-color:var(--purple)}
+.main-tab.tab-compare.on .tab-dot{background:var(--purple)}
+.main-pane{display:none}.main-pane.on{display:block}
+
+/* SECTION HEAD */
+.sec-head{display:flex;align-items:center;gap:12px;
+  font-family:var(--head);font-size:11px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;color:var(--teal);
+  margin-bottom:12px;margin-top:24px}
+.sec-head::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border2),transparent)}
+.sec-num{width:22px;height:22px;border-radius:4px;
+  background:rgba(0,229,200,.12);border:1px solid var(--teal3);
+  display:grid;place-items:center;
+  font-family:var(--mono);font-size:10px;color:var(--teal);flex-shrink:0}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:18px;margin-bottom:6px;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--teal2),transparent 60%)}
+.card.gold-accent::before{background:linear-gradient(90deg,var(--gold),transparent 60%)}
+.card.purple-accent::before{background:linear-gradient(90deg,var(--purple),transparent 60%)}
+
+/* SETUP GRID */
+.setup-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:5px}
+.flabel{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase}
+.finput{background:var(--bg3);border:1px solid var(--border2);border-radius:7px;
+  padding:8px 12px;color:var(--text);font-family:var(--mono);font-size:13px;
+  outline:none;transition:border-color .2s,box-shadow .2s;width:100%}
+.finput:focus{border-color:var(--teal2);box-shadow:0 0 0 2px rgba(0,229,200,.1)}
+.finput::placeholder{color:var(--text3)}
+select.finput{cursor:pointer}
+select.finput option{background:var(--bg3)}
+
+/* SECTION BLOCK */
+.sec-block{background:var(--card);border:1px solid var(--border);border-radius:10px;
+  margin-bottom:10px;overflow:hidden;transition:border-color .2s}
+.sec-block:hover{border-color:var(--border2)}
+.sec-block.outlier-warn{border-color:rgba(249,115,22,.4)!important}
+.sec-block.outlier-err{border-color:rgba(239,68,68,.4)!important;
+  box-shadow:0 0 0 1px rgba(239,68,68,.15)}
+
+.sec-hdr{display:flex;align-items:center;gap:10px;padding:10px 14px;
+  background:rgba(0,229,200,.03);border-bottom:1px solid var(--border);
+  flex-wrap:wrap;cursor:pointer;user-select:none}
+.sec-hdr:hover{background:rgba(0,229,200,.06)}
+.sec-idx{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--teal);
+  width:26px;height:26px;border-radius:5px;border:1px solid var(--teal3);
+  display:grid;place-items:center;background:rgba(0,229,200,.08);flex-shrink:0}
+.sec-slag-in{background:transparent;border:none;border-bottom:1px solid var(--border2);
+  color:var(--gold);font-family:var(--head);font-size:14px;font-weight:700;
+  outline:none;min-width:160px;padding:2px 4px;transition:border-color .2s}
+.sec-slag-in:focus{border-color:var(--gold)}
+.sec-from-in,.sec-to-in{background:var(--bg3);border:1px solid var(--border2);
+  border-radius:5px;color:var(--teal2);font-family:var(--mono);font-size:11px;
+  outline:none;width:68px;padding:4px 7px;text-align:center;transition:border-color .2s}
+.sec-from-in:focus,.sec-to-in:focus{border-color:var(--teal2)}
+.arrow-sep{font-family:var(--mono);font-size:12px;color:var(--text3)}
+.sec-del{margin-left:auto;background:none;border:1px solid rgba(239,68,68,.2);
+  color:var(--text3);cursor:pointer;font-size:11px;padding:4px 9px;
+  border-radius:5px;transition:all .15s;font-family:var(--mono)}
+.sec-del:hover{color:var(--red);background:rgba(239,68,68,.1)}
+.sec-collapse{margin-left:4px;background:none;border:none;color:var(--text3);
+  cursor:pointer;font-size:14px;transition:transform .2s;padding:2px}
+.sec-collapse.open{transform:rotate(180deg)}
+
+/* STAND BODY */
+.sec-body{padding:12px 14px 14px}
+.stand-wrap{margin-bottom:10px;background:var(--bg3);border:1px solid var(--border);
+  border-radius:8px;overflow:hidden}
+.stand-wrap.stand-2{background:rgba(11,19,32,.8)}
+.stand-label{background:rgba(0,229,200,.06);border-bottom:1px solid var(--border);
+  padding:5px 12px;display:flex;align-items:center;gap:8px}
+.stand-label span{font-family:var(--mono);font-size:10px;color:var(--teal2);
+  letter-spacing:1.5px;text-transform:uppercase}
+.stand-badge{font-family:var(--mono);font-size:9px;color:var(--text3);
+  border:1px solid var(--border2);border-radius:3px;padding:1px 6px}
+
+/* STAND TABLE */
+.stand-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.stand-tbl th{background:var(--bg2);color:var(--text3);font-family:var(--mono);
+  font-size:9px;letter-spacing:1px;text-transform:uppercase;
+  padding:5px 7px;border:1px solid var(--border);text-align:center;white-space:nowrap}
+.stand-tbl th.th-bs{color:var(--teal2);background:rgba(0,229,200,.04)}
+.stand-tbl th.th-fs{color:var(--gold2);background:rgba(240,180,41,.04)}
+.stand-tbl th.th-calc{color:var(--blue);background:rgba(77,166,255,.04)}
+.stand-tbl td{border:1px solid var(--border);padding:2px;text-align:center}
+.side-cell{font-family:var(--mono);font-size:10px;font-weight:700;width:28px;
+  padding:0!important;background:rgba(0,0,0,.3)}
+.side-cell.bs{color:var(--teal)}
+.side-cell.fs{color:var(--gold)}
+input.cin{background:transparent;border:none;outline:none;
+  color:var(--text);font-family:var(--mono);font-size:12px;
+  width:72px;text-align:center;padding:5px 3px}
+input.cin:focus{background:rgba(0,229,200,.07);border-radius:3px}
+input.cin.bt{color:var(--text)}
+input.cin.ba{color:var(--teal2)}
+input.cin.bb{color:var(--teal3)}
+.calc-cell{font-family:var(--mono);font-size:11px;color:var(--blue);
+  padding:5px 8px!important;background:rgba(77,166,255,.04);min-width:62px}
+.calc-cell.dh-val{color:var(--gold);background:rgba(240,180,41,.04)}
+.calc-cell.warn{color:var(--orange)!important;background:rgba(249,115,22,.08)!important}
+.calc-cell.err{color:var(--red)!important;background:rgba(239,68,68,.1)!important}
+
+/* SECTION SUMMARY */
+.sec-summary{display:flex;gap:12px;flex-wrap:wrap;padding:10px 14px;
+  border-top:1px solid var(--border);background:rgba(0,0,0,.2)}
+.sum-item{display:flex;align-items:center;gap:5px}
+.sum-lbl{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase}
+.sum-val{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--text2)}
+.sum-val.ok{color:var(--green)}
+.sum-val.warn{color:var(--orange)}
+.sum-val.err{color:var(--red)}
+.sum-badge{font-family:var(--mono);font-size:9px;font-weight:700;
+  border-radius:3px;padding:2px 6px}
+.sum-badge.ok{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);color:var(--green)}
+.sum-badge.warn{background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.3);color:var(--orange)}
+.sum-badge.err{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:var(--red)}
+
+/* BUTTONS */
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;
+  border-radius:8px;border:none;cursor:pointer;
+  font-family:var(--mono);font-size:12px;font-weight:700;transition:all .18s}
+.btn-add{background:rgba(0,229,200,.08);border:1px solid var(--teal3);color:var(--teal)}
+.btn-add:hover{background:rgba(0,229,200,.18)}
+.btn-calc{background:var(--teal);color:#000;border:1px solid var(--teal)}
+.btn-calc:hover{background:var(--teal2);transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,229,200,.3)}
+.btn-reset{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);color:var(--red)}
+.btn-reset:hover{background:rgba(239,68,68,.18)}
+.btn-exp{background:rgba(240,180,41,.08);border:1px solid rgba(240,180,41,.25);color:var(--gold)}
+.btn-exp:hover{background:rgba(240,180,41,.18)}
+.btn-comp{background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);color:var(--purple)}
+.btn-comp:hover{background:rgba(167,139,250,.18)}
+
+/* INFO BOX */
+.info-box{background:rgba(0,229,200,.04);border:1px solid rgba(0,229,200,.12);
+  border-radius:8px;padding:10px 14px;
+  font-family:var(--mono);font-size:11px;color:var(--teal2);line-height:1.9;margin-bottom:14px}
+.info-box strong{color:var(--teal)}
+
+/* ALERT */
+.alert{display:none;padding:10px 14px;border-radius:7px;
+  font-family:var(--mono);font-size:12px;margin-bottom:14px;line-height:1.7}
+.alert.on{display:block}
+.alert-err{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);color:var(--red)}
+.alert-warn{background:rgba(249,115,22,.08);border:1px solid rgba(249,115,22,.25);color:var(--orange)}
+
+/* RESULTS */
+.results-section{display:none}
+.results-section.on{display:block}
+
+/* SUMMARY CARDS */
+.syarat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:20px}
+.scard{border-radius:9px;padding:14px 16px;border:1px solid var(--border2);background:var(--card2);position:relative;overflow:hidden}
+.scard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:.5}
+.scard.bg-green::before{background:var(--green)}
+.scard.bg-red::before{background:var(--red)}
+.scard.bg-teal::before{background:var(--teal)}
+.scard.bg-gold::before{background:var(--gold)}
+.scard.bg-yellow::before{background:var(--yellow)}
+.scard.bg-orange::before{background:var(--orange)}
+.scard.bg-blue::before{background:var(--blue)}
+.scard-lbl{font-family:var(--mono);font-size:9px;color:var(--text3);
+  letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.scard-val{font-family:var(--mono);font-size:20px;font-weight:700;line-height:1}
+.scard-note{font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:5px;line-height:1.6}
+.bg-green{background:rgba(34,197,94,.07)!important;border-color:rgba(34,197,94,.2)!important}
+.bg-red{background:rgba(239,68,68,.07)!important;border-color:rgba(239,68,68,.2)!important}
+.bg-teal{background:rgba(0,229,200,.06)!important;border-color:rgba(0,229,200,.18)!important}
+.bg-gold{background:rgba(240,180,41,.06)!important;border-color:rgba(240,180,41,.18)!important}
+.bg-yellow{background:rgba(234,179,8,.06)!important;border-color:rgba(234,179,8,.18)!important}
+.bg-orange{background:rgba(249,115,22,.07)!important;border-color:rgba(249,115,22,.2)!important}
+.bg-blue{background:rgba(77,166,255,.06)!important;border-color:rgba(77,166,255,.18)!important}
+.c-green{color:var(--green)!important}
+.c-red{color:var(--red)!important}
+.c-teal{color:var(--teal)!important}
+.c-gold{color:var(--gold)!important}
+.c-yellow{color:var(--yellow)!important}
+.c-orange{color:var(--orange)!important}
+.c-blue{color:var(--blue)!important}
+.c-purple{color:var(--purple)!important}
+
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;
+  font-family:var(--mono);font-size:10px;font-weight:700}
+.badge-ok{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.35);color:var(--green)}
+.badge-fail{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:var(--red)}
+.badge-warn{background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.35);color:var(--orange)}
+
+/* RESULT TABLE */
+.tbl-wrap{overflow-x:auto;margin-top:8px}
+.rtbl{width:100%;border-collapse:collapse;font-size:11px;min-width:1100px}
+.rtbl th{background:var(--bg2);color:var(--text3);font-family:var(--mono);
+  font-size:9px;letter-spacing:.8px;text-transform:uppercase;
+  padding:7px 7px;border:1px solid var(--border);text-align:center;white-space:nowrap}
+.rtbl th.grp-bs{background:rgba(0,229,200,.05);color:var(--teal2)}
+.rtbl th.grp-fs{background:rgba(240,180,41,.05);color:var(--gold2)}
+.rtbl th.grp-res{background:rgba(77,166,255,.05);color:var(--blue)}
+.rtbl td{border:1px solid var(--border);padding:6px 7px;font-family:var(--mono);font-size:11px;text-align:center}
+.rtbl td.td-titik{color:var(--teal);font-weight:700;text-align:left;
+  background:rgba(0,229,200,.03);white-space:nowrap;min-width:130px}
+.rtbl tr.jumlah-row td{background:rgba(0,229,200,.05);font-weight:700;color:var(--teal)}
+.rtbl tr.jumlah-row td.td-titik{color:var(--teal)}
+.rtbl td.ok-c{background:rgba(34,197,94,.08);color:var(--green);font-weight:700}
+.rtbl td.err-c{background:rgba(239,68,68,.1);color:var(--red);font-weight:700}
+.rtbl td.warn-c{background:rgba(249,115,22,.08);color:var(--orange);font-weight:700}
+.rtbl td.h-val{color:var(--teal2);font-weight:700;font-size:12px}
+.rtbl td.tinggi-final{color:var(--teal);font-weight:700;font-size:13px}
+.rtbl td.pos{color:#7dd3fc}
+.rtbl td.neg{color:#fda4af}
+.rtbl .stand-row:not(:last-child) td{border-bottom:1px dashed rgba(24,40,64,.8)}
+.rtbl .section-start td{border-top:2px solid rgba(0,229,200,.15)}
+
+/* TABS within results */
+.rtabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.rtab{background:none;border:none;padding:8px 16px;color:var(--text3);
+  font-family:var(--mono);font-size:11px;cursor:pointer;
+  border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.rtab.on{color:var(--teal);border-bottom-color:var(--teal)}
+.rtab:hover:not(.on){color:var(--text2)}
+.rpane{display:none}.rpane.on{display:block}
+
+/* OUTLIER PANEL */
+.outlier-panel{display:none;margin-bottom:16px;
+  background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.25);
+  border-radius:8px;padding:14px 16px}
+.outlier-panel.on{display:block}
+.outlier-title{font-family:var(--mono);font-size:11px;font-weight:700;
+  color:var(--red);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.outlier-item{font-family:var(--mono);font-size:11px;color:var(--orange);
+  padding:4px 0;border-bottom:1px solid rgba(239,68,68,.1);line-height:1.7}
+.outlier-item:last-child{border-bottom:none}
+.outlier-item strong{color:var(--red)}
+
+/* TOLERANCE BAR */
+.tol-wrap{display:flex;align-items:center;gap:12px;margin-top:8px}
+.tol-bg{flex:1;height:8px;background:var(--bg2);border-radius:4px;overflow:hidden}
+.tol-fill{height:100%;border-radius:4px;transition:width .6s cubic-bezier(.4,0,0,1)}
+
+/* COMPARISON */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.comp-card{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px}
+.comp-title{font-family:var(--head);font-size:12px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;margin-bottom:12px}
+.comp-card.pergi .comp-title{color:var(--teal)}
+.comp-card.pulang .comp-title{color:var(--gold)}
+
+/* FOOTER */
+footer{position:relative;z-index:1;border-top:1px solid var(--border);
+  padding:18px 24px;display:flex;align-items:center;justify-content:center}
+.foot-inner{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text3);line-height:2}
+.foot-inner .name{color:var(--teal);font-weight:700}
+.foot-inner a{color:var(--text2);text-decoration:none;transition:color .15s}
+.foot-inner a:hover{color:var(--teal)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .setup-grid{grid-template-columns:1fr 1fr}
+  .stand-tbl{font-size:11px}
+  input.cin{width:60px;font-size:11px}
+}
+@media(max-width:600px){
+  .setup-grid{grid-template-columns:1fr}
+  header{padding:0 14px;gap:10px}
+  .hdr-title{display:none}
+  .wrap{padding:16px 12px 60px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════ HEADER ═══════ -->
+<header>
+  <div class="logo">
+    <div class="logo-mark">KDV</div>
+    <div class="logo-wrap">
+      <div class="logo-name">Leveling Pro</div>
+      <div class="logo-tag">Kerangka Dasar Vertikal</div>
+    </div>
+  </div>
+  <div class="hdr-div"></div>
+  <span class="hdr-title">Pengolahan Data Sipat Datar — Pergi &amp; Pulang</span>
+  <div class="hdr-space"></div>
+  <span class="hdr-ver">v2.0</span>
+  <span class="hdr-copy">&copy; <b>Egi Nugraha</b></span>
+</header>
+
+<!-- ═══════ MAIN ═══════ -->
+<div class="wrap">
+
+  <!-- TOP TABS -->
+  <div class="main-tabs">
+    <button class="main-tab on" onclick="switchMain('pergi',this)">
+      <span class="tab-dot"></span> PERGI
+    </button>
+    <button class="main-tab tab-pulang" onclick="switchMain('pulang',this)">
+      <span class="tab-dot"></span> PULANG
+    </button>
+    <button class="main-tab tab-compare" onclick="switchMain('compare',this)">
+      <span class="tab-dot"></span> PERBANDINGAN
+    </button>
+  </div>
+
+  <!-- ═══════ PANE PERGI ═══════ -->
+  <div id="pane-pergi" class="main-pane on">
+
+    <div class="sec-head"><span class="sec-num">01</span>Konfigurasi Proyek</div>
+    <div class="card">
+      <div class="setup-grid">
+        <div class="field">
+          <label class="flabel">Nama Proyek</label>
+          <input class="finput" id="pergi-proj" value="KDV Test — Pergi" placeholder="Nama proyek">
+        </div>
+        <div class="field">
+          <label class="flabel">Tinggi Titik Awal (m)</label>
+          <input class="finput" id="pergi-h0" type="number" step="any" value="100" placeholder="100.000">
+        </div>
+        <div class="field">
+          <label class="flabel">Kelas Toleransi</label>
+          <select class="finput" id="pergi-tol">
+            <option value="8">Orde 2 — 8√K mm</option>
+            <option value="12" selected>Orde 3 — 12√K mm</option>
+            <option value="20">Konstruksi — 20√K mm</option>
+            <option value="30">Sipat Datar Biasa — 30√K mm</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="flabel">Δ DH Toleransi Stand (mm)</label>
+          <input class="finput" id="pergi-dhtol" type="number" step="any" value="3" placeholder="3">
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-head"><span class="sec-num">02</span>Input Data Pengukuran</div>
+    <div class="info-box">
+      <strong>BS = Back Sight (Rambu Belakang):</strong> BT = Benang Tengah &nbsp;|&nbsp; BA = Benang Atas &nbsp;|&nbsp; BB = Benang Bawah<br>
+      <strong>FS = For Sight (Rambu Depan):</strong> Sama seperti BS &nbsp;|&nbsp;
+      <strong>D</strong> = (BA − BB) × 100 &nbsp;|&nbsp;
+      <strong>DH</strong> = BT<sub>BS</sub> − BT<sub>FS</sub> &nbsp;|&nbsp;
+      Setiap seksi = 2 Stand
+    </div>
+
+    <div id="sections-pergi"></div>
+
+    <div class="alert alert-err" id="pergi-err"></div>
+    <div class="alert alert-warn" id="pergi-warn"></div>
+
+    <div class="btn-row">
+      <button class="btn btn-add" onclick="addSection('pergi')">＋ Tambah Seksi</button>
+      <button class="btn btn-calc" onclick="calculate('pergi')">⟳ Hitung Otomatis</button>
+      <button class="btn btn-exp" onclick="exportCSV('pergi')">↓ Export CSV</button>
+      <button class="btn btn-reset" onclick="resetDir('pergi')">↺ Reset</button>
+      <button class="btn btn-comp" onclick="switchMain('compare',document.querySelector('.tab-compare'))">⊞ Lihat Perbandingan</button>
+    </div>
+
+    <div class="results-section" id="results-pergi">
+      <div class="sec-head" style="margin-top:28px"><span class="sec-num">03</span>Hasil Pengolahan</div>
+      <div id="outlier-panel-pergi" class="outlier-panel"></div>
+      <div class="card">
+        <div class="syarat-grid" id="syarat-pergi"></div>
+        <div class="rtabs">
+          <button class="rtab on" onclick="swRTab('pergi','main',this)">Rekap Utama</button>
+          <button class="rtab" onclick="swRTab('pergi','detail',this)">Detail Bacaan</button>
+          <button class="rtab" onclick="swRTab('pergi','ringkas',this)">Ringkasan</button>
+        </div>
+        <div id="rtab-pergi-main" class="rpane on tbl-wrap"></div>
+        <div id="rtab-pergi-detail" class="rpane tbl-wrap"></div>
+        <div id="rtab-pergi-ringkas" class="rpane"></div>
+      </div>
+    </div>
+  </div><!-- /pane-pergi -->
+
+  <!-- ═══════ PANE PULANG ═══════ -->
+  <div id="pane-pulang" class="main-pane">
+
+    <div class="sec-head"><span class="sec-num">01</span>Konfigurasi Proyek</div>
+    <div class="card gold-accent">
+      <div class="setup-grid">
+        <div class="field">
+          <label class="flabel">Nama Proyek</label>
+          <input class="finput" id="pulang-proj" value="KDV Test — Pulang" placeholder="Nama proyek">
+        </div>
+        <div class="field">
+          <label class="flabel">Tinggi Titik Awal (m)</label>
+          <input class="finput" id="pulang-h0" type="number" step="any" value="100" placeholder="100.000">
+        </div>
+        <div class="field">
+          <label class="flabel">Kelas Toleransi</label>
+          <select class="finput" id="pulang-tol">
+            <option value="8">Orde 2 — 8√K mm</option>
+            <option value="12" selected>Orde 3 — 12√K mm</option>
+            <option value="20">Konstruksi — 20√K mm</option>
+            <option value="30">Sipat Datar Biasa — 30√K mm</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="flabel">Δ DH Toleransi Stand (mm)</label>
+          <input class="finput" id="pulang-dhtol" type="number" step="any" value="3" placeholder="3">
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-head"><span class="sec-num">02</span>Input Data Pengukuran</div>
+    <div class="info-box" style="border-color:rgba(240,180,41,.15);color:var(--gold2)">
+      <strong style="color:var(--gold)">Pengukuran Pulang</strong> — arah kebalikan dari Pergi &nbsp;|&nbsp;
+      Titik awal Pulang = titik akhir Pergi &nbsp;|&nbsp;
+      Hasil akhir tinggi harus kembali ke nilai tinggi titik awal = <strong style="color:var(--gold)">100.000 m</strong>
+    </div>
+
+    <div id="sections-pulang"></div>
+
+    <div class="alert alert-err" id="pulang-err"></div>
+    <div class="alert alert-warn" id="pulang-warn"></div>
+
+    <div class="btn-row">
+      <button class="btn btn-add" onclick="addSection('pulang')">＋ Tambah Seksi</button>
+      <button class="btn btn-calc" onclick="calculate('pulang')">⟳ Hitung Otomatis</button>
+      <button class="btn btn-exp" onclick="exportCSV('pulang')">↓ Export CSV</button>
+      <button class="btn btn-reset" onclick="resetDir('pulang')">↺ Reset</button>
+    </div>
+
+    <div class="results-section" id="results-pulang">
+      <div class="sec-head" style="margin-top:28px"><span class="sec-num">03</span>Hasil Pengolahan</div>
+      <div id="outlier-panel-pulang" class="outlier-panel"></div>
+      <div class="card gold-accent">
+        <div class="syarat-grid" id="syarat-pulang"></div>
+        <div class="rtabs">
+          <button class="rtab on" onclick="swRTab('pulang','main',this)">Rekap Utama</button>
+          <button class="rtab" onclick="swRTab('pulang','detail',this)">Detail Bacaan</button>
+          <button class="rtab" onclick="swRTab('pulang','ringkas',this)">Ringkasan</button>
+        </div>
+        <div id="rtab-pulang-main" class="rpane on tbl-wrap"></div>
+        <div id="rtab-pulang-detail" class="rpane tbl-wrap"></div>
+        <div id="rtab-pulang-ringkas" class="rpane"></div>
+      </div>
+    </div>
+  </div><!-- /pane-pulang -->
+
+  <!-- ═══════ PANE COMPARE ═══════ -->
+  <div id="pane-compare" class="main-pane">
+    <div class="sec-head"><span class="sec-num" style="background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.3);color:var(--purple)">⊞</span>
+      <span style="color:var(--purple)">Perbandingan Pergi &amp; Pulang</span></div>
+    <div class="card purple-accent" id="compare-content">
+      <div style="text-align:center;padding:40px;font-family:var(--mono);font-size:12px;color:var(--text3)">
+        ↑ Hitung terlebih dahulu data Pergi dan Pulang, kemudian klik tombol di bawah.
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-comp" onclick="runCompare()">⊞ Bandingkan Pergi &amp; Pulang</button>
+      <button class="btn btn-exp" onclick="exportCompareCSV()">↓ Export Perbandingan CSV</button>
+    </div>
+  </div><!-- /pane-compare -->
+
+</div><!-- /wrap -->
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer>
+  <div class="foot-inner">
+    <div>Kerangka Dasar Vertikal (Sipat Datar) — Pengolahan Data Leveling Pergi &amp; Pulang</div>
+    <div>Dibuat oleh <span class="name">© Egi Nugraha</span> &nbsp;|&nbsp; v2.0 &nbsp;|&nbsp;
+      <a href="https://github.com" target="_blank">GitHub</a> &nbsp;·&nbsp;
+      <a href="vscode://." target="_blank">VS Code</a>
+    </div>
+    <div style="color:var(--text3);font-size:9px;margin-top:2px">
+      D = (BA−BB)×100 &nbsp;|&nbsp; DH = BT<sub>BS</sub>−BT<sub>FS</sub> &nbsp;|&nbsp;
+      kH = −(ΣDH/ΣD)×D<sub>i</sub> &nbsp;|&nbsp; BedaTinggi = DH̄ + kH &nbsp;|&nbsp;
+      TinggiTitik = kumulatif dari Z₀ = 100
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════════════
+   DEFAULT DATA — dari KDV_test.xlsx
+══════════════════════════════════════════════════ */
+const DEFAULTS = {
+  pergi: [
+    { slag:'∆H AN 1 - AN 2', from:'AN 1', to:'AN 2',
+      stands:[
+        {bt_bs:1.819, ba_bs:1.908, bb_bs:1.728, bt_fs:1.354, ba_fs:1.433, bb_fs:1.276},
+        {bt_bs:1.919, ba_bs:2.009, bb_bs:1.829, bt_fs:1.453, ba_fs:1.531, bb_fs:1.375}
+      ]},
+    { slag:'∆H AN 2 - AN 3', from:'AN 2', to:'AN 3',
+      stands:[
+        {bt_bs:1.662, ba_bs:1.738, bb_bs:1.586, bt_fs:1.303, ba_fs:1.367, bb_fs:1.239},
+        {bt_bs:1.700, ba_bs:1.775, bb_bs:1.623, bt_fs:1.340, ba_fs:1.404, bb_fs:1.276}
+      ]},
+    { slag:'∆H AN 3 - AN 4', from:'AN 3', to:'AN 4',
+      stands:[
+        {bt_bs:1.661, ba_bs:1.750, bb_bs:1.571, bt_fs:1.578, ba_fs:1.670, bb_fs:1.485},
+        {bt_bs:1.721, ba_bs:1.811, bb_bs:1.632, bt_fs:1.637, ba_fs:1.730, bb_fs:1.544}
+      ]},
+    { slag:'∆H AN 4 - AN 5', from:'AN 4', to:'AN 5',
+      stands:[
+        {bt_bs:1.500, ba_bs:1.560, bb_bs:1.438, bt_fs:1.451, ba_fs:1.514, bb_fs:1.388},
+        {bt_bs:1.571, ba_bs:1.632, bb_bs:1.509, bt_fs:1.522, ba_fs:1.585, bb_fs:1.458}
+      ]},
+    { slag:'∆H AN 5 - AN 6', from:'AN 5', to:'AN 6',
+      stands:[
+        {bt_bs:1.453, ba_bs:1.515, bb_bs:1.389, bt_fs:1.687, ba_fs:1.748, bb_fs:1.626},
+        {bt_bs:1.378, ba_bs:1.450, bb_bs:1.324, bt_fs:1.623, ba_fs:1.684, bb_fs:1.561}
+      ]},
+    { slag:'∆H AN 6 - AN 1', from:'AN 6', to:'AN 1',
+      stands:[
+        {bt_bs:0.891, ba_bs:0.985, bb_bs:0.798, bt_fs:1.624, ba_fs:1.716, bb_fs:1.531},
+        {bt_bs:0.974, ba_bs:1.067, bb_bs:0.880, bt_fs:1.706, ba_fs:1.798, bb_fs:1.613}
+      ]}
+  ],
+  pulang: [
+    { slag:'∆H AN 6 - AN 5', from:'AN 6', to:'AN 5',
+      stands:[
+        {bt_bs:1.686, ba_bs:1.748, bb_bs:1.623, bt_fs:1.450, ba_fs:1.512, bb_fs:1.388},
+        {bt_bs:1.741, ba_bs:1.803, bb_bs:1.678, bt_fs:1.507, ba_fs:1.568, bb_fs:1.445}
+      ]},
+    { slag:'∆H AN 5 - AN 4', from:'AN 5', to:'AN 4',
+      stands:[
+        {bt_bs:1.552, ba_bs:1.615, bb_bs:1.490, bt_fs:1.601, ba_fs:1.663, bb_fs:1.538},
+        {bt_bs:1.484, ba_bs:1.547, bb_bs:1.422, bt_fs:1.533, ba_fs:1.594, bb_fs:1.471}
+      ]},
+    { slag:'∆H AN 4 - AN 3', from:'AN 4', to:'AN 3',
+      stands:[
+        {bt_bs:1.643, ba_bs:1.734, bb_bs:1.550, bt_fs:1.730, ba_fs:1.821, bb_fs:1.639},
+        {bt_bs:1.670, ba_bs:1.761, bb_bs:1.578, bt_fs:1.757, ba_fs:1.848, bb_fs:1.666}
+      ]},
+    { slag:'∆H AN 3 - AN 2', from:'AN 3', to:'AN 2',
+      stands:[
+        {bt_bs:1.374, ba_bs:1.444, bb_bs:1.304, bt_fs:1.742, ba_fs:1.813, bb_fs:1.669},
+        {bt_bs:1.330, ba_bs:1.400, bb_bs:1.261, bt_fs:1.698, ba_fs:1.769, bb_fs:1.625}
+      ]},
+    { slag:'∆H AN 2 - AN 1', from:'AN 2', to:'AN 1',
+      stands:[
+        {bt_bs:1.496, ba_bs:1.576, bb_bs:1.414, bt_fs:1.960, ba_fs:2.047, bb_fs:1.873},
+        {bt_bs:1.399, ba_bs:1.480, bb_bs:1.318, bt_fs:1.862, ba_fs:1.949, bb_fs:1.774}
+      ]},
+    { slag:'∆H AN 1 - AN 6', from:'AN 1', to:'AN 6',
+      stands:[
+        {bt_bs:1.699, ba_bs:1.790, bb_bs:1.607, bt_fs:0.967, ba_fs:1.060, bb_fs:0.873},
+        {bt_bs:1.594, ba_bs:1.688, bb_bs:1.502, bt_fs:0.862, ba_fs:0.955, bb_fs:0.768}
+      ]}
+  ]
+};
+
+/* ══════════════════════════════════════════════════
+   STATE
+══════════════════════════════════════════════════ */
+let secCounters = {pergi:0, pulang:0};
+let lastCalc = {pergi:null, pulang:null};
+
+/* ══════════════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════════════ */
+const fmt = (v,d=4) => (isNaN(v)||v==null)?'—':v.toFixed(d);
+const fmtSgn = (v,d=4) => (isNaN(v)||v==null)?'—':(v>=0?'+':'')+v.toFixed(d);
+const $ = id => document.getElementById(id);
+const gv = id => { const e=$(id); return e?parseFloat(e.value)||0:0; };
+const gs = id => { const e=$(id); return e?e.value.trim():''; };
+
+function cn(v,d=4){
+  if(isNaN(v)||v==null)return'—';
+  return `<span class="${v<0?'neg':'pos'}">${fmt(v,d)}</span>`;
+}
+
+/* ══════════════════════════════════════════════════
+   BUILD SECTION HTML
+══════════════════════════════════════════════════ */
+function makeSection(dir, idx, data) {
+  const id = `${dir}_s${idx}`;
+  const d = data || {};
+  const slag = d.slag || '';
+  const from = d.from || '';
+  const to = d.to || '';
+
+  const makeStand = (si, st) => {
+    const sid = `${id}_t${si}`;
+    const sv = st || {};
+    const f = (k) => sv[k] !== undefined ? sv[k] : '';
+    return `
+    <div class="stand-wrap ${si===1?'stand-2':''}">
+      <div class="stand-label">
+        <span>Stand ${si+1}</span>
+        <span class="stand-badge">ID: ${sid}</span>
+        <span id="${sid}_flag" style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--text3)"></span>
+      </div>
+      <table class="stand-tbl">
+        <thead>
+          <tr>
+            <th style="width:28px"></th>
+            <th class="th-bs">BT (m)</th>
+            <th class="th-bs">BA (m)</th>
+            <th class="th-bs">BB (m)</th>
+            <th class="th-calc">D (cm)</th>
+            <th class="th-calc">D Rata</th>
+            <th class="th-calc">DH (m)</th>
+            <th class="th-calc">BT Chk</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="side-cell bs">BS</td>
+            <td><input class="cin bt" id="${sid}_bt_bs" value="${f('bt_bs')}" type="number" step="any" oninput="updateStandCalc('${sid}')" placeholder="0.000"></td>
+            <td><input class="cin ba" id="${sid}_ba_bs" value="${f('ba_bs')}" type="number" step="any" oninput="updateStandCalc('${sid}')" placeholder="0.000"></td>
+            <td><input class="cin bb" id="${sid}_bb_bs" value="${f('bb_bs')}" type="number" step="any" oninput="updateStandCalc('${sid}')" placeholder="0.000"></td>
+            <td class="calc-cell" id="${sid}_d_bs">—</td>
+            <td class="calc-cell" id="${sid}_d_rata" rowspan="2" style="vertical-align:middle">—</td>
+            <td class="calc-cell dh-val" id="${sid}_dh" rowspan="2" style="vertical-align:middle">—</td>
+            <td class="calc-cell" id="${sid}_chk_bs">—</td>
+          </tr>
+          <tr>
+            <td class="side-cell fs">FS</td>
+            <td><input class="cin bt" id="${sid}_bt_fs" value="${f('bt_fs')}" type="number" step="any" oninput="updateStandCalc('${sid}')" placeholder="0.000"></td>
+            <td><input class="cin ba" id="${sid}_ba_fs" value="${f('ba_fs')}" type="number" step="any" oninput="updateStandCalc('${sid}')" placeholder="0.000"></td>
+            <td><input class="cin bb" id="${sid}_bb_fs" value="${f('bb_fs')}" type="number" step="any" oninput="updateStandCalc('${sid}')" placeholder="0.000"></td>
+            <td class="calc-cell" id="${sid}_d_fs">—</td>
+            <td class="calc-cell" id="${sid}_chk_fs">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>`;
+  };
+
+  return `
+  <div class="sec-block" id="blk_${id}">
+    <div class="sec-hdr" onclick="toggleSection('${id}')">
+      <span class="sec-idx">${String(idx+1).padStart(2,'0')}</span>
+      <input class="sec-slag-in" id="${id}_slag" value="${slag}" placeholder="Nama Seksi / Slag"
+        onclick="event.stopPropagation()" oninput="event.stopPropagation()">
+      <input class="sec-from-in" id="${id}_from" value="${from}" placeholder="Dari"
+        onclick="event.stopPropagation()">
+      <span class="arrow-sep">→</span>
+      <input class="sec-to-in" id="${id}_to" value="${to}" placeholder="Ke"
+        onclick="event.stopPropagation()">
+      <span id="${id}_status" style="margin-left:8px"></span>
+      <button class="sec-del" onclick="event.stopPropagation();$('blk_${id}').remove();updateAllSummaries('${dir}')">✕ Hapus</button>
+      <button class="sec-collapse open" id="col_${id}" onclick="event.stopPropagation();toggleSection('${id}')">▲</button>
+    </div>
+    <div id="body_${id}">
+      <div class="sec-body">
+        ${makeStand(0, d.stands ? d.stands[0] : null)}
+        ${makeStand(1, d.stands ? d.stands[1] : null)}
+      </div>
+      <div class="sec-summary" id="sum_${id}">
+        <div class="sum-item"><span class="sum-lbl">SigmaD</span><span class="sum-val" id="${id}_sigmaD">—</span></div>
+        <div class="sum-item"><span class="sum-lbl">DH Stand 1</span><span class="sum-val" id="${id}_dh1">—</span></div>
+        <div class="sum-item"><span class="sum-lbl">DH Stand 2</span><span class="sum-val" id="${id}_dh2">—</span></div>
+        <div class="sum-item"><span class="sum-lbl">DH Rata-rata</span><span class="sum-val" id="${id}_dh_rata">—</span></div>
+        <div class="sum-item"><span class="sum-lbl">|ΔDH|</span><span class="sum-val" id="${id}_dh_diff">—</span></div>
+        <span id="${id}_outlier_badge"></span>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ══════════════════════════════════════════════════
+   ADD SECTION
+══════════════════════════════════════════════════ */
+function addSection(dir, data=null) {
+  const cont = $(`sections-${dir}`);
+  const idx = secCounters[dir]++;
+  const div = document.createElement('div');
+  div.innerHTML = makeSection(dir, idx, data);
+  cont.appendChild(div.firstElementChild);
+  // Init calc display for all stands
+  for(let si=0;si<2;si++) {
+    updateStandCalc(`${dir}_s${idx}_t${si}`);
+  }
+  updateSectionSummary(`${dir}_s${idx}`, dir);
+}
+
+/* ══════════════════════════════════════════════════
+   TOGGLE COLLAPSE
+══════════════════════════════════════════════════ */
+function toggleSection(id) {
+  const body = $(`body_${id}`);
+  const btn = $(`col_${id}`);
+  if(!body||!btn) return;
+  const hidden = body.style.display==='none';
+  body.style.display = hidden?'':'none';
+  btn.classList.toggle('open', hidden);
+}
+
+/* ══════════════════════════════════════════════════
+   REAL-TIME STAND CALCULATION
+══════════════════════════════════════════════════ */
+function updateStandCalc(sid) {
+  const bt_bs = gv(`${sid}_bt_bs`);
+  const ba_bs = gv(`${sid}_ba_bs`);
+  const bb_bs = gv(`${sid}_bb_bs`);
+  const bt_fs = gv(`${sid}_bt_fs`);
+  const ba_fs = gv(`${sid}_ba_fs`);
+  const bb_fs = gv(`${sid}_bb_fs`);
+
+  const d_bs = (ba_bs - bb_bs) * 100;
+  const d_fs = (ba_fs - bb_fs) * 100;
+  const d_rata = (d_bs + d_fs) / 2;
+  const dh = bt_bs - bt_fs;
+
+  // BT check: BT should ≈ (BA+BB)/2
+  const bt_check_bs = Math.abs(bt_bs - (ba_bs+bb_bs)/2);
+  const bt_check_fs = Math.abs(bt_fs - (ba_fs+bb_fs)/2);
+
+  const dBsEl = $(`${sid}_d_bs`);
+  const dFsEl = $(`${sid}_d_fs`);
+  const dRataEl = $(`${sid}_d_rata`);
+  const dhEl = $(`${sid}_dh`);
+  const chkBsEl = $(`${sid}_chk_bs`);
+  const chkFsEl = $(`${sid}_chk_fs`);
+
+  if(dBsEl){
+    dBsEl.textContent = d_bs>0 ? fmt(d_bs,3) : '—';
+    dBsEl.className = 'calc-cell' + (d_bs<=0?' err':'');
+  }
+  if(dFsEl){
+    dFsEl.textContent = d_fs>0 ? fmt(d_fs,3) : '—';
+    dFsEl.className = 'calc-cell' + (d_fs<=0?' err':'');
+  }
+  if(dRataEl) dRataEl.textContent = d_rata>0 ? fmt(d_rata,3) : '—';
+  if(dhEl){
+    dhEl.textContent = (bt_bs&&bt_fs) ? fmtSgn(dh,4) : '—';
+    dhEl.className = 'calc-cell dh-val';
+  }
+  if(chkBsEl){
+    chkBsEl.textContent = ba_bs&&bb_bs ? (bt_check_bs*1000).toFixed(2)+'mm' : '—';
+    chkBsEl.className = 'calc-cell' + (bt_check_bs>0.005?' warn':'');
+  }
+  if(chkFsEl){
+    chkFsEl.textContent = ba_fs&&bb_fs ? (bt_check_fs*1000).toFixed(2)+'mm' : '—';
+    chkFsEl.className = 'calc-cell' + (bt_check_fs>0.005?' warn':'');
+  }
+
+  // Update parent section summary
+  const parts = sid.split('_t');
+  if(parts.length===2) {
+    updateSectionSummary(parts[0], parts[0].split('_s')[0]);
+  }
+}
+
+function updateSectionSummary(secId, dir) {
+  const dhtol = parseFloat($(`${dir}-dhtol`).value) || 3;
+  const tol = dhtol / 1000; // convert mm to m
+
+  const stands = [0,1].map(si => {
+    const sid = `${secId}_t${si}`;
+    const bt_bs=gv(`${sid}_bt_bs`), ba_bs=gv(`${sid}_ba_bs`), bb_bs=gv(`${sid}_bb_bs`);
+    const bt_fs=gv(`${sid}_bt_fs`), ba_fs=gv(`${sid}_ba_fs`), bb_fs=gv(`${sid}_bb_fs`);
+    const d_bs=(ba_bs-bb_bs)*100, d_fs=(ba_fs-bb_fs)*100;
+    const d_rata=(d_bs+d_fs)/2;
+    const dh=bt_bs-bt_fs;
+    return {d_bs, d_fs, d_rata, dh, valid: d_bs>0&&d_fs>0&&bt_bs&&bt_fs};
+  });
+
+  const validStands = stands.filter(s=>s.valid);
+  if(validStands.length===0) return;
+
+  const sigmaD = stands.reduce((a,s)=>a+s.d_rata,0);
+  const dh_rata = validStands.reduce((a,s)=>a+s.dh,0)/validStands.length;
+  const dh_diff = validStands.length===2 ? Math.abs(stands[0].dh - stands[1].dh) : 0;
+  const isOutlier = dh_diff > tol;
+  const isWarn = dh_diff > tol*0.5 && !isOutlier;
+
+  const sigmaDEl = $(`${secId}_sigmaD`);
+  const dh1El = $(`${secId}_dh1`);
+  const dh2El = $(`${secId}_dh2`);
+  const dhRataEl = $(`${secId}_dh_rata`);
+  const dhDiffEl = $(`${secId}_dh_diff`);
+  const badgeEl = $(`${secId}_outlier_badge`);
+  const statusEl = $(`${secId}_status`);
+  const blkEl = $(`blk_${secId}`);
+
+  if(sigmaDEl) sigmaDEl.textContent = fmt(sigmaD,3)+' cm';
+  if(dh1El) dh1El.textContent = stands[0].valid ? fmtSgn(stands[0].dh,4)+' m' : '—';
+  if(dh2El) dh2El.textContent = stands[1].valid ? fmtSgn(stands[1].dh,4)+' m' : '—';
+  if(dhRataEl) dhRataEl.textContent = fmtSgn(dh_rata,4)+' m';
+  if(dhDiffEl){
+    const diffMM = (dh_diff*1000).toFixed(3);
+    dhDiffEl.textContent = diffMM + ' mm';
+    dhDiffEl.className = 'sum-val' + (isOutlier?' err':isWarn?' warn':' ok');
+  }
+  if(badgeEl){
+    if(isOutlier) badgeEl.innerHTML = '<span class="sum-badge err">⚠ BLUNDER — Ukur Ulang!</span>';
+    else if(isWarn) badgeEl.innerHTML = '<span class="sum-badge warn">⚡ Perhatikan Stand 1 vs 2</span>';
+    else if(validStands.length===2) badgeEl.innerHTML = '<span class="sum-badge ok">✓ OK</span>';
+    else badgeEl.innerHTML = '';
+  }
+  if(blkEl){
+    blkEl.classList.toggle('outlier-err', isOutlier);
+    blkEl.classList.toggle('outlier-warn', isWarn);
+  }
+  if(statusEl){
+    if(isOutlier) statusEl.innerHTML = '<span class="badge badge-fail">⚠ BLUNDER</span>';
+    else if(isWarn) statusEl.innerHTML = '<span class="badge badge-warn">⚡ Periksa</span>';
+    else if(validStands.length===2) statusEl.innerHTML = '<span class="badge badge-ok">✓ OK</span>';
+    else statusEl.innerHTML = '';
+  }
+}
+
+function updateAllSummaries(dir) {
+  document.querySelectorAll(`#sections-${dir} .sec-block`).forEach(blk => {
+    const secId = blk.id.replace('blk_','');
+    updateSectionSummary(secId, dir);
+  });
+}
+
+/* ══════════════════════════════════════════════════
+   READ DATA
+══════════════════════════════════════════════════ */
+function readData(dir) {
+  const sections = [];
+  document.querySelectorAll(`#sections-${dir} .sec-block`).forEach((blk,idx) => {
+    const secId = blk.id.replace('blk_','');
+    const slag = gs(`${secId}_slag`);
+    const from = gs(`${secId}_from`);
+    const to = gs(`${secId}_to`);
+    const stands = [];
+    for(let si=0;si<2;si++){
+      const sid=`${secId}_t${si}`;
+      stands.push({
+        bt_bs:gv(`${sid}_bt_bs`), ba_bs:gv(`${sid}_ba_bs`), bb_bs:gv(`${sid}_bb_bs`),
+        bt_fs:gv(`${sid}_bt_fs`), ba_fs:gv(`${sid}_ba_fs`), bb_fs:gv(`${sid}_bb_fs`)
+      });
+    }
+    sections.push({idx:idx+1, slag, from, to, stands, secId});
+  });
+  return sections;
+}
+
+/* ══════════════════════════════════════════════════
+   CORE CALCULATION
+══════════════════════════════════════════════════ */
+function doCalc(dir) {
+  const sections = readData(dir);
+  const h0 = gv(`${dir}-h0`) || 100;
+  const tolClass = parseFloat($(`${dir}-tol`).value) || 12;
+  const dhTolMM = parseFloat($(`${dir}-dhtol`).value) || 3;
+  const dhTol = dhTolMM / 1000;
+
+  const computed = sections.map(sec => {
+    const standRes = sec.stands.map(st => {
+      const d_bs = (st.ba_bs - st.bb_bs) * 100;
+      const d_fs = (st.ba_fs - st.bb_fs) * 100;
+      const d_rata = (d_bs + d_fs) / 2;
+      const dh = st.bt_bs - st.bt_fs;
+      // BT check
+      const btchk_bs = Math.abs(st.bt_bs - (st.ba_bs+st.bb_bs)/2);
+      const btchk_fs = Math.abs(st.bt_fs - (st.ba_fs+st.bb_fs)/2);
+      const valid = d_bs>0 && d_fs>0 && st.bt_bs>0 && st.bt_fs>0;
+      return {d_bs, d_fs, d_rata, dh, btchk_bs, btchk_fs, valid, raw:st};
+    });
+
+    const validStands = standRes.filter(s=>s.valid);
+    const sigmaD = standRes.reduce((a,s)=>a+s.d_rata,0);
+    const dh_rata = validStands.length>0 ? validStands.reduce((a,s)=>a+s.dh,0)/validStands.length : 0;
+    const dh_diff = standRes.length===2 && standRes[0].valid && standRes[1].valid ?
+      Math.abs(standRes[0].dh - standRes[1].dh) : 0;
+    const isOutlier = dh_diff > dhTol;
+
+    return {
+      ...sec, standRes, sigmaD, dh_rata, dh_diff, isOutlier,
+      validStands: validStands.length
+    };
+  });
+
+  const totalSigmaD = computed.reduce((a,s)=>a+s.sigmaD,0);
+  const totalDH = computed.reduce((a,s)=>a+s.dh_rata,0);
+
+  // Compute corrections and heights
+  computed.forEach(sec => {
+    sec.jarakLoop = totalSigmaD>0 ? sec.sigmaD/totalSigmaD : 0;
+    sec.kH = totalSigmaD>0 ? -(totalDH/totalSigmaD)*sec.sigmaD : 0;
+    sec.bedaTinggi = sec.dh_rata + sec.kH;
+  });
+
+  // Cumulative heights
+  let h = h0;
+  const heightPoints = [{titik: computed[0]?.from||'—', h: h, isStart:true}];
+  computed.forEach(sec => {
+    sec.h_from = h;
+    h = h + sec.bedaTinggi;
+    sec.h_to = h;
+    heightPoints.push({titik:sec.to, h, isStart:false, sec});
+  });
+
+  // Misclosure
+  const misclosure = h - h0;
+  const totalSigmaDkm = totalSigmaD/1000; // cm to km
+  const tolLimit = tolClass * Math.sqrt(Math.abs(totalSigmaDkm)) / 1000; // in meters
+  const loopOK = Math.abs(misclosure) <= tolLimit;
+
+  // Outlier list
+  const outliers = computed.filter(s=>s.isOutlier);
+
+  return {
+    dir, computed, totalSigmaD, totalDH, misclosure,
+    tolClass, tolLimit, loopOK, h0, hFinal:h,
+    heightPoints, outliers, dhTol,
+    penutupOK: Math.abs(misclosure) < 0.001
+  };
+}
+
+/* ══════════════════════════════════════════════════
+   CALCULATE + RENDER
+══════════════════════════════════════════════════ */
+function calculate(dir) {
+  const errEl = $(`${dir}-err`);
+  const warnEl = $(`${dir}-warn`);
+  errEl.classList.remove('on');
+  warnEl.classList.remove('on');
+
+  const sections = readData(dir);
+  if(sections.length < 2) {
+    errEl.textContent = '⚠ Minimal 2 seksi diperlukan untuk hitungan loop!';
+    errEl.classList.add('on');
+    return;
+  }
+
+  const result = doCalc(dir);
+  lastCalc[dir] = result;
+
+  // Show outlier panel
+  const oPanel = $(`outlier-panel-${dir}`);
+  if(result.outliers.length > 0) {
+    oPanel.classList.add('on');
+    oPanel.innerHTML = `<div class="outlier-title">⚠ ${result.outliers.length} Seksi Terdeteksi Blunder — Perlu Pengukuran Ulang!</div>` +
+      result.outliers.map(s => `
+        <div class="outlier-item">
+          <strong>Seksi ${s.idx}: ${s.slag}</strong> (${s.from} → ${s.to}) — 
+          |ΔDH| = ${(s.dh_diff*1000).toFixed(3)} mm &gt; toleransi ${(result.dhTol*1000).toFixed(1)} mm &nbsp;
+          <span style="color:var(--text3)">
+            DH Stand 1 = ${fmtSgn(s.standRes[0]?.dh,4)} m | 
+            DH Stand 2 = ${fmtSgn(s.standRes[1]?.dh,4)} m
+          </span>
+        </div>`
+      ).join('');
+  } else {
+    oPanel.classList.remove('on');
+  }
+
+  renderSyarat(dir, result);
+  renderMainTable(dir, result);
+  renderDetailTable(dir, result);
+  renderRingkasan(dir, result);
+
+  $(`results-${dir}`).classList.add('on');
+  $(`results-${dir}`).scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ══════════════════════════════════════════════════
+   RENDER SYARAT CARDS
+══════════════════════════════════════════════════ */
+function renderSyarat(dir, r) {
+  const miscMM = (Math.abs(r.misclosure)*1000).toFixed(3);
+  const tolMM = (r.tolLimit*1000).toFixed(3);
+  const pct = r.tolLimit>0 ? Math.min(100,(Math.abs(r.misclosure)/r.tolLimit)*100) : 0;
+  const el = $(`syarat-${dir}`);
+  el.innerHTML = `
+    <div class="scard bg-teal">
+      <div class="scard-lbl">Total Jarak Loop (ΣD)</div>
+      <div class="scard-val c-teal">${fmt(r.totalSigmaD,3)} cm</div>
+      <div class="scard-note">${fmt(r.totalSigmaD/100,4)} m &nbsp;|&nbsp; ${(r.totalSigmaD/1000).toFixed(4)} km</div>
+    </div>
+    <div class="scard bg-gold">
+      <div class="scard-lbl">Σ DH Rata-rata</div>
+      <div class="scard-val c-gold">${fmtSgn(r.totalDH,5)} m</div>
+      <div class="scard-note">Kesalahan penutup kasar &nbsp;|&nbsp; ${(r.totalDH*1000).toFixed(3)} mm</div>
+    </div>
+    <div class="scard ${r.loopOK?'bg-green':'bg-red'}">
+      <div class="scard-lbl">Salah Penutup (Misclosure)</div>
+      <div class="scard-val ${r.loopOK?'c-green':'c-red'}">${miscMM} mm</div>
+      <div class="scard-note">Toleransi: ±${tolMM} mm &nbsp;
+        <span class="badge ${r.loopOK?'badge-ok':'badge-fail'}">${r.loopOK?'✓ LULUS':'✗ GAGAL'}</span>
+      </div>
+    </div>
+    <div class="scard bg-yellow">
+      <div class="scard-lbl">Toleransi Kelas Orde ${r.tolClass==='8'?2:r.tolClass==='12'?3:r.tolClass==='20'?'K':'B'}</div>
+      <div class="scard-val c-yellow">±${tolMM} mm</div>
+      <div class="scard-note">${r.tolClass}√K mm &nbsp;|&nbsp; K = ${(r.totalSigmaD/1000).toFixed(4)} km</div>
+    </div>
+    <div class="scard ${r.outliers.length===0?'bg-green':'bg-red'}">
+      <div class="scard-lbl">Deteksi Blunder Stand</div>
+      <div class="scard-val ${r.outliers.length===0?'c-green':'c-red'}">${r.outliers.length} Seksi</div>
+      <div class="scard-note">${r.outliers.length===0?'✓ Semua stand normal':'⚠ '+r.outliers.map(s=>s.slag).join(', ')}</div>
+    </div>
+    <div class="scard ${r.penutupOK?'bg-green':'bg-orange'}">
+      <div class="scard-lbl">Tinggi Akhir / Penutup</div>
+      <div class="scard-val ${r.penutupOK?'c-green':'c-orange'}">${fmt(r.hFinal,5)} m</div>
+      <div class="scard-note">Awal: ${fmt(r.h0,3)} m &nbsp;|&nbsp; 
+        ${r.penutupOK?'✓ Loop Tertutup':'Δ = '+(Math.abs(r.misclosure)*1000).toFixed(3)+' mm'}
+      </div>
+    </div>
+  `;
+}
+
+/* ══════════════════════════════════════════════════
+   RENDER MAIN TABLE
+══════════════════════════════════════════════════ */
+function renderMainTable(dir, r) {
+  let html = `<table class="rtbl">
+    <thead>
+      <tr>
+        <th rowspan="2">No</th>
+        <th rowspan="2">Slag / Seksi</th>
+        <th colspan="2" class="grp-bs">D Stand (cm)</th>
+        <th colspan="2" class="grp-bs">D Rata-rata (cm)</th>
+        <th rowspan="2" class="grp-res">Σ D (cm)</th>
+        <th colspan="2" class="grp-bs">DH Stand (m)</th>
+        <th rowspan="2" class="grp-res">DH Rata-rata (m)</th>
+        <th rowspan="2" class="grp-res">Jarak Loop</th>
+        <th rowspan="2" class="grp-res">kH (m)</th>
+        <th rowspan="2" style="color:var(--gold)">Beda Tinggi (m)</th>
+        <th rowspan="2" style="color:var(--teal)">Tinggi Titik (m)</th>
+        <th rowspan="2">Status</th>
+      </tr>
+      <tr>
+        <th class="grp-bs">Stand 1</th><th class="grp-bs">Stand 2</th>
+        <th class="grp-bs">Stand 1</th><th class="grp-bs">Stand 2</th>
+        <th class="grp-bs">Stand 1</th><th class="grp-bs">Stand 2</th>
+      </tr>
+    </thead>
+    <tbody>`;
+
+  // Starting point row
+  const startName = r.computed[0]?.from || '—';
+  html += `<tr class="section-start">
+    <td class="td-titik" colspan="2">${startName} (titik awal)</td>
+    <td colspan="12"></td>
+    <td class="tinggi-final">${fmt(r.h0,5)}</td>
+    <td class="ok-c">Z₀</td>
+  </tr>`;
+
+  r.computed.forEach((sec,i) => {
+    const st1 = sec.standRes[0], st2 = sec.standRes[1];
+    const dhClass1 = st1.valid ? '' : ' warn-c';
+    const dhClass2 = st2.valid ? '' : ' warn-c';
+    const secClass = sec.isOutlier ? 'err-c' : sec.dh_diff > sec.dh_diff*0.5 ? '' : 'ok-c';
+    const btClass = sec.bedaTinggi >= 0 ? 'pos' : 'neg';
+    const hClass = i===r.computed.length-1 ? 'tinggi-final' : 'h-val';
+    const tolOK = !sec.isOutlier;
+
+    html += `<tr class="section-start">
+      <td class="td-titik">${sec.idx}</td>
+      <td class="td-titik">${sec.slag}<br><span style="font-size:9px;color:var(--text3)">${sec.from} → ${sec.to}</span></td>
+      <td>${st1.valid?fmt(st1.d_rata,3):'—'}</td>
+      <td>${st2.valid?fmt(st2.d_rata,3):'—'}</td>
+      <td>${fmt(st1.d_rata,3)}</td>
+      <td>${fmt(st2.d_rata,3)}</td>
+      <td style="font-weight:700">${fmt(sec.sigmaD,3)}</td>
+      <td class="${dhClass1}">${st1.valid?fmtSgn(st1.dh,4):'—'}</td>
+      <td class="${dhClass2}">${st2.valid?fmtSgn(st2.dh,4):'—'}</td>
+      <td class="c-gold" style="font-weight:700">${fmtSgn(sec.dh_rata,4)}</td>
+      <td style="color:var(--text2)">${fmt(sec.jarakLoop,6)}</td>
+      <td style="color:var(--cyan)">${fmtSgn(sec.kH,6)}</td>
+      <td class="${btClass}" style="font-weight:700">${fmtSgn(sec.bedaTinggi,5)}</td>
+      <td class="${hClass}">${fmt(sec.h_to,5)}</td>
+      <td class="${sec.isOutlier?'err-c':'ok-c'}">${sec.isOutlier?'⚠ BLUNDER':'✓ OK'}</td>
+    </tr>`;
+  });
+
+  // JUMLAH row
+  const totalDrata = r.computed.reduce((a,s)=>a+(s.standRes[0].d_rata+s.standRes[1].d_rata)/2,0);
+  html += `<tr class="jumlah-row">
+    <td class="td-titik" colspan="2">JUMLAH</td>
+    <td colspan="2"></td>
+    <td colspan="2">${fmt(totalDrata,3)}</td>
+    <td style="font-weight:700">${fmt(r.totalSigmaD,3)}</td>
+    <td colspan="2"></td>
+    <td style="font-weight:700">${fmtSgn(r.totalDH,5)}</td>
+    <td style="font-weight:700">1.000000</td>
+    <td style="font-weight:700">${fmtSgn(r.computed.reduce((a,s)=>a+s.kH,0),6)}</td>
+    <td style="font-weight:700">${fmtSgn(r.computed.reduce((a,s)=>a+s.bedaTinggi,0),6)}</td>
+    <td class="${r.loopOK?'ok-c':'err-c'}">${fmt(r.hFinal,5)}</td>
+    <td class="${r.loopOK?'ok-c':'err-c'}">${r.loopOK?'✓ LULUS':'✗ GAGAL'}</td>
+  </tr>`;
+
+  html += `</tbody></table>`;
+  $(`rtab-${dir}-main`).innerHTML = html;
+}
+
+/* ══════════════════════════════════════════════════
+   RENDER DETAIL TABLE (raw readings)
+══════════════════════════════════════════════════ */
+function renderDetailTable(dir, r) {
+  let html = `<table class="rtbl">
+    <thead>
+      <tr>
+        <th rowspan="2">No/Slag</th>
+        <th rowspan="2">Stand</th>
+        <th colspan="3" class="grp-bs">Back Sight</th>
+        <th colspan="3" class="grp-fs">For Sight</th>
+        <th class="grp-bs">D_BS (cm)</th>
+        <th class="grp-fs">D_FS (cm)</th>
+        <th class="grp-res">D Rata (cm)</th>
+        <th class="grp-res">DH (m)</th>
+        <th class="grp-res">BT Chk BS</th>
+        <th class="grp-res">BT Chk FS</th>
+      </tr>
+      <tr>
+        <th class="grp-bs">BT</th><th class="grp-bs">BA</th><th class="grp-bs">BB</th>
+        <th class="grp-fs">BT</th><th class="grp-fs">BA</th><th class="grp-fs">BB</th>
+        <th colspan="6"></th>
+      </tr>
+    </thead>
+    <tbody>`;
+
+  r.computed.forEach(sec => {
+    sec.standRes.forEach((st,si) => {
+      const btchkBSmm = (st.btchk_bs*1000).toFixed(2);
+      const btchkFSmm = (st.btchk_fs*1000).toFixed(2);
+      const chkBsClass = st.btchk_bs>0.005?'warn-c':'';
+      const chkFsClass = st.btchk_fs>0.005?'warn-c':'';
+      html += `<tr ${si===0?'class="section-start"':''}>
+        ${si===0?`<td class="td-titik" rowspan="2">${sec.idx}. ${sec.slag}<br><span style="font-size:9px;color:var(--text3)">${sec.from} → ${sec.to}</span></td>`:''}
+        <td style="font-weight:700;color:var(--text2)">Stand ${si+1}</td>
+        <td>${fmt(st.raw.bt_bs,4)}</td>
+        <td class="c-teal">${fmt(st.raw.ba_bs,4)}</td>
+        <td style="color:var(--teal3)">${fmt(st.raw.bb_bs,4)}</td>
+        <td>${fmt(st.raw.bt_fs,4)}</td>
+        <td class="c-gold">${fmt(st.raw.ba_fs,4)}</td>
+        <td style="color:var(--gold2)">${fmt(st.raw.bb_fs,4)}</td>
+        <td class="c-teal">${fmt(st.d_bs,3)}</td>
+        <td class="c-gold">${fmt(st.d_fs,3)}</td>
+        <td style="font-weight:700">${fmt(st.d_rata,3)}</td>
+        <td class="${st.dh>=0?'pos':'neg'}" style="font-weight:700">${fmtSgn(st.dh,4)}</td>
+        <td class="${chkBsClass}">${btchkBSmm} mm</td>
+        <td class="${chkFsClass}">${btchkFSmm} mm</td>
+      </tr>`;
+    });
+  });
+
+  html += `</tbody></table>`;
+  $(`rtab-${dir}-detail`).innerHTML = html;
+}
+
+/* ══════════════════════════════════════════════════
+   RENDER RINGKASAN
+══════════════════════════════════════════════════ */
+function renderRingkasan(dir, r) {
+  const miscMM = (Math.abs(r.misclosure)*1000).toFixed(4);
+  const tolMM = (r.tolLimit*1000).toFixed(4);
+  const pct = r.tolLimit>0?Math.min(100,(Math.abs(r.misclosure)/r.tolLimit)*100):0;
+  const outlierCount = r.outliers.length;
+
+  // Height summary table
+  let hTable = `<table style="width:100%;border-collapse:collapse;margin-top:10px">
+    <thead><tr>
+      <th style="background:var(--bg2);color:var(--text3);font-family:var(--mono);font-size:9px;letter-spacing:1px;padding:7px 10px;border:1px solid var(--border);text-transform:uppercase">Titik</th>
+      <th style="background:var(--bg2);color:var(--teal2);font-family:var(--mono);font-size:9px;letter-spacing:1px;padding:7px 10px;border:1px solid var(--border);text-transform:uppercase">Beda Tinggi (m)</th>
+      <th style="background:var(--bg2);color:var(--teal);font-family:var(--mono);font-size:9px;letter-spacing:1px;padding:7px 10px;border:1px solid var(--border);text-transform:uppercase">Tinggi Titik (m)</th>
+      <th style="background:var(--bg2);color:var(--text3);font-family:var(--mono);font-size:9px;letter-spacing:1px;padding:7px 10px;border:1px solid var(--border);text-transform:uppercase">Jarak Akumulasi (cm)</th>
+    </tr></thead>
+    <tbody>
+    <tr>
+      <td style="font-family:var(--mono);font-size:12px;color:var(--teal);font-weight:700;padding:7px 10px;border:1px solid var(--border)">${r.computed[0]?.from||'—'}</td>
+      <td style="font-family:var(--mono);font-size:12px;padding:7px 10px;border:1px solid var(--border)">—</td>
+      <td style="font-family:var(--mono);font-size:14px;color:var(--teal);font-weight:700;padding:7px 10px;border:1px solid var(--border)">${fmt(r.h0,5)}</td>
+      <td style="font-family:var(--mono);font-size:12px;color:var(--text3);padding:7px 10px;border:1px solid var(--border)">0.000</td>
+    </tr>`;
+  let cumD = 0;
+  r.computed.forEach((sec,i)=>{
+    cumD += sec.sigmaD;
+    const last = i===r.computed.length-1;
+    const hClass = last ? `color:var(--teal);font-size:14px;font-weight:700` : `color:var(--teal2);font-weight:700`;
+    hTable += `<tr>
+      <td style="font-family:var(--mono);font-size:12px;color:var(--text);padding:7px 10px;border:1px solid var(--border)">${sec.to}</td>
+      <td style="font-family:var(--mono);font-size:12px;${sec.bedaTinggi>=0?'color:#7dd3fc':'color:#fda4af'};padding:7px 10px;border:1px solid var(--border)">${fmtSgn(sec.bedaTinggi,5)}</td>
+      <td style="font-family:var(--mono);font-size:12px;${hClass};padding:7px 10px;border:1px solid var(--border)">${fmt(sec.h_to,5)}</td>
+      <td style="font-family:var(--mono);font-size:12px;color:var(--text3);padding:7px 10px;border:1px solid var(--border)">${fmt(cumD,3)}</td>
+    </tr>`;
+  });
+  hTable += `</tbody></table>`;
+
+  $(`rtab-${dir}-ringkas`).innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
+      <div>
+        <h3 style="font-family:var(--head);font-size:12px;color:var(--teal);letter-spacing:2px;margin-bottom:12px">REKAPITULASI JARAK</h3>
+        <table style="width:100%;border-collapse:collapse">
+          ${sRow('Jumlah seksi', r.computed.length, '')}
+          ${sRow('Total Σ D', fmt(r.totalSigmaD,3)+' cm', 'teal')}
+          ${sRow('Total Σ D', fmt(r.totalSigmaD/100,4)+' m', 'teal')}
+          ${sRow('Total Σ D', (r.totalSigmaD/1000).toFixed(5)+' km', 'blue')}
+          ${sRow('Σ D Rata-rata', fmt(r.computed.reduce((a,s)=>a+(s.standRes[0].d_rata+s.standRes[1].d_rata)/2,0),3)+' cm', 'text2')}
+        </table>
+      </div>
+      <div>
+        <h3 style="font-family:var(--head);font-size:12px;color:var(--gold);letter-spacing:2px;margin-bottom:12px">REKAPITULASI LEVELING</h3>
+        <table style="width:100%;border-collapse:collapse">
+          ${sRow('Σ DH Rata-rata', fmtSgn(r.totalDH,5)+' m', r.totalDH<0.001?'green':'red')}
+          ${sRow('Misclosure', miscMM+' mm', r.loopOK?'green':'red')}
+          ${sRow('Toleransi ('+r.tolClass+'√K)', '±'+tolMM+' mm', 'yellow')}
+          ${sRow('Tinggi Awal', fmt(r.h0,5)+' m', 'teal')}
+          ${sRow('Tinggi Akhir (koreksi)', fmt(r.hFinal,5)+' m', r.penutupOK?'green':'orange')}
+          ${sRow('Blunder Terdeteksi', outlierCount+' seksi', outlierCount===0?'green':'red')}
+        </table>
+        <div class="tol-wrap" style="margin-top:14px">
+          <span style="font-family:var(--mono);font-size:10px;color:var(--text3);min-width:130px">% Penggunaan Toleransi</span>
+          <div class="tol-bg"><div class="tol-fill" style="width:${pct.toFixed(1)}%;background:${r.loopOK?'var(--green)':'var(--red)'}"></div></div>
+          <span style="font-family:var(--mono);font-size:11px;color:${r.loopOK?'var(--green)':'var(--red)'};min-width:50px">${pct.toFixed(1)}%</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--head);font-size:12px;color:var(--teal);letter-spacing:2px;margin-bottom:6px">TINGGI TITIK</h3>
+    ${hTable}
+
+    <div style="margin-top:16px;background:rgba(0,229,200,.04);border:1px solid rgba(0,229,200,.12);
+      border-radius:8px;padding:14px 18px;font-family:var(--mono);font-size:11px;color:var(--text2);line-height:2.2">
+      <span style="color:var(--teal);font-weight:700">KESIMPULAN &nbsp;|</span>&nbsp;
+      <strong style="color:var(--text)">${r.computed.length} Seksi</strong> &nbsp;—&nbsp;
+      Penutup: <span class="badge ${r.loopOK?'badge-ok':'badge-fail'}">${r.loopOK?'✓ LULUS':'✗ GAGAL'}</span> &nbsp;
+      Blunder: <span class="badge ${outlierCount===0?'badge-ok':'badge-fail'}">${outlierCount===0?'✓ Tidak Ada':'✗ '+outlierCount+' Seksi'}</span>
+    </div>
+    <div style="margin-top:8px;text-align:right;font-family:var(--mono);font-size:10px;color:var(--text3)">
+      © Egi Nugraha — KDV Leveling Pro v2.0 &nbsp;|&nbsp; ${new Date().toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'})}
+    </div>
+  `;
+}
+
+function sRow(label, val, color) {
+  const cc = color ? `color:var(--${color})` : 'color:var(--text)';
+  return `<tr>
+    <td style="font-family:var(--mono);font-size:11px;color:var(--text3);padding:5px 8px;border:1px solid var(--border)">${label}</td>
+    <td style="font-family:var(--mono);font-size:12px;font-weight:700;padding:5px 8px;border:1px solid var(--border);text-align:right;${cc}">${val}</td>
+  </tr>`;
+}
+
+/* ══════════════════════════════════════════════════
+   COMPARE PERGI & PULANG
+══════════════════════════════════════════════════ */
+function runCompare() {
+  if(!lastCalc.pergi || !lastCalc.pulang) {
+    $('compare-content').innerHTML = `
+      <div style="text-align:center;padding:30px;font-family:var(--mono);font-size:12px;color:var(--red)">
+        ⚠ Klik "Hitung Otomatis" pada tab Pergi <strong>dan</strong> Pulang terlebih dahulu!
+      </div>`;
+    return;
+  }
+  const P = lastCalc.pergi;
+  const Q = lastCalc.pulang;
+
+  // Build height point map from pergi
+  const pergiH = {};
+  P.computed.forEach(s => { pergiH[s.from] = s.h_from; pergiH[s.to] = s.h_to; });
+  const pulangH = {};
+  Q.computed.forEach(s => { pulangH[s.from] = s.h_from; pulangH[s.to] = s.h_to; });
+
+  // Common points
+  const points = [...new Set([...Object.keys(pergiH), ...Object.keys(pulangH)])];
+
+  let compTable = `<table class="rtbl" style="min-width:700px">
+    <thead><tr>
+      <th>Titik</th>
+      <th style="color:var(--teal)">Tinggi Pergi (m)</th>
+      <th style="color:var(--gold)">Tinggi Pulang (m)</th>
+      <th style="color:var(--purple)">Selisih (mm)</th>
+      <th>Status</th>
+    </tr></thead>
+    <tbody>`;
+
+  const diffs = [];
+  points.forEach(pt => {
+    const hp = pergiH[pt];
+    const hq = pulangH[pt];
+    const diff = (hp!==undefined && hq!==undefined) ? (hp - hq)*1000 : null;
+    if(diff !== null) diffs.push(Math.abs(diff));
+    const status = diff===null?'—':Math.abs(diff)<1?'✓ Sesuai':Math.abs(diff)<3?'⚡ Perhatikan':'⚠ Selisih Besar';
+    const cls = diff===null?'':Math.abs(diff)<1?'ok-c':Math.abs(diff)<3?'warn-c':'err-c';
+    compTable += `<tr>
+      <td class="td-titik">${pt}</td>
+      <td class="c-teal">${hp!==undefined?fmt(hp,5):'—'}</td>
+      <td class="c-gold">${hq!==undefined?fmt(hq,5):'—'}</td>
+      <td class="${cls}">${diff!==null?fmtSgn(diff,3)+' mm':'—'}</td>
+      <td class="${cls}">${status}</td>
+    </tr>`;
+  });
+  compTable += `</tbody></table>`;
+
+  const avgDiff = diffs.length ? diffs.reduce((a,b)=>a+b,0)/diffs.length : 0;
+
+  $('compare-content').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px">
+      <div class="scard bg-teal">
+        <div class="scard-lbl">Pergi — Misclosure</div>
+        <div class="scard-val c-teal">${(Math.abs(P.misclosure)*1000).toFixed(3)} mm</div>
+        <div class="scard-note"><span class="badge ${P.loopOK?'badge-ok':'badge-fail'}">${P.loopOK?'✓ LULUS':'✗ GAGAL'}</span></div>
+      </div>
+      <div class="scard bg-gold">
+        <div class="scard-lbl">Pulang — Misclosure</div>
+        <div class="scard-val c-gold">${(Math.abs(Q.misclosure)*1000).toFixed(3)} mm</div>
+        <div class="scard-note"><span class="badge ${Q.loopOK?'badge-ok':'badge-fail'}">${Q.loopOK?'✓ LULUS':'✗ GAGAL'}</span></div>
+      </div>
+      <div class="scard bg-blue">
+        <div class="scard-lbl">Rerata Selisih Pergi-Pulang</div>
+        <div class="scard-val c-blue">${avgDiff.toFixed(3)} mm</div>
+        <div class="scard-note"><span class="badge ${avgDiff<1?'badge-ok':avgDiff<3?'badge-warn':'badge-fail'}">${avgDiff<1?'✓ Konsisten':avgDiff<3?'⚡ Periksa':'⚠ Tidak Konsisten'}</span></div>
+      </div>
+    </div>
+    <h3 style="font-family:var(--head);font-size:12px;color:var(--purple);letter-spacing:2px;margin-bottom:10px">PERBANDINGAN TINGGI TITIK</h3>
+    <div class="tbl-wrap">${compTable}</div>
+    <div style="margin-top:16px;background:rgba(167,139,250,.05);border:1px solid rgba(167,139,250,.15);
+      border-radius:8px;padding:12px 16px;font-family:var(--mono);font-size:11px;color:var(--text2);line-height:2">
+      <span style="color:var(--purple);font-weight:700">KESIMPULAN PERBANDINGAN &nbsp;|</span>&nbsp;
+      Pergi: <span class="badge ${P.loopOK?'badge-ok':'badge-fail'}">${P.loopOK?'✓ LULUS':'✗ GAGAL'}</span> &nbsp;
+      Pulang: <span class="badge ${Q.loopOK?'badge-ok':'badge-fail'}">${Q.loopOK?'✓ LULUS':'✗ GAGAL'}</span> &nbsp;
+      Konsistensi: <span class="badge ${avgDiff<1?'badge-ok':avgDiff<3?'badge-warn':'badge-fail'}">${avgDiff<1?'✓ Sangat Baik':avgDiff<3?'⚡ Cukup Baik':'✗ Perlu Cek'}</span>
+    </div>
+    <div style="margin-top:8px;text-align:right;font-family:var(--mono);font-size:10px;color:var(--text3)">
+      © Egi Nugraha — KDV Leveling Pro v2.0 &nbsp;|&nbsp; ${new Date().toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'})}
+    </div>
+  `;
+}
+
+/* ══════════════════════════════════════════════════
+   EXPORT CSV
+══════════════════════════════════════════════════ */
+function exportCSV(dir) {
+  if(!lastCalc[dir]) { alert('Hitung terlebih dahulu!'); return; }
+  const r = lastCalc[dir];
+  let csv = 'No,Slag,Dari,Ke,Stand,BT_BS,BA_BS,BB_BS,BT_FS,BA_FS,BB_FS,D_BS_cm,D_FS_cm,D_rata_cm,DH_m\n';
+  r.computed.forEach(sec => {
+    sec.standRes.forEach((st,si) => {
+      csv += [sec.idx, sec.slag, sec.from, sec.to, si+1,
+        st.raw.bt_bs, st.raw.ba_bs, st.raw.bb_bs,
+        st.raw.bt_fs, st.raw.ba_fs, st.raw.bb_fs,
+        st.d_bs.toFixed(4), st.d_fs.toFixed(4), st.d_rata.toFixed(4), st.dh.toFixed(5)
+      ].join(',') + '\n';
+    });
+    csv += [sec.idx, sec.slag, sec.from, sec.to, 'HASIL',
+      '','','','','','',
+      '',  '', fmt(sec.sigmaD,4), fmt(sec.dh_rata,5)
+    ].join(',') + ',' + fmt(sec.jarakLoop,6)+','+fmt(sec.kH,6)+','+fmtSgn(sec.bedaTinggi,5)+','+fmt(sec.h_to,5)+'\n';
+  });
+  csv += `JUMLAH,,,,,,,,,,,,,,${fmt(r.totalSigmaD,4)},${fmt(r.totalDH,5)},1.000000,${fmtSgn(r.computed.reduce((a,s)=>a+s.kH,0),6)},${fmt(r.computed.reduce((a,s)=>a+s.bedaTinggi,0),6)},${fmt(r.hFinal,5)}\n`;
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,\uFEFF' + encodeURIComponent(csv);
+  a.download = `KDV_${dir}_EgiNugraha.csv`;
+  a.click();
+}
+
+function exportCompareCSV() {
+  if(!lastCalc.pergi || !lastCalc.pulang) { alert('Hitung Pergi dan Pulang terlebih dahulu!'); return; }
+  const P = lastCalc.pergi, Q = lastCalc.pulang;
+  const pergiH={}, pulangH={};
+  P.computed.forEach(s=>{pergiH[s.from]=s.h_from;pergiH[s.to]=s.h_to;});
+  Q.computed.forEach(s=>{pulangH[s.from]=s.h_from;pulangH[s.to]=s.h_to;});
+  const points=[...new Set([...Object.keys(pergiH),...Object.keys(pulangH)])];
+  let csv='Titik,Tinggi Pergi (m),Tinggi Pulang (m),Selisih (mm),Status\n';
+  points.forEach(pt=>{
+    const hp=pergiH[pt], hq=pulangH[pt];
+    const diff=(hp!==undefined&&hq!==undefined)?(hp-hq)*1000:null;
+    const status=diff===null?'—':Math.abs(diff)<1?'Sesuai':Math.abs(diff)<3?'Perhatikan':'Selisih Besar';
+    csv+=`${pt},${hp!==undefined?fmt(hp,5):'—'},${hq!==undefined?fmt(hq,5):'—'},${diff!==null?diff.toFixed(3):'—'},${status}\n`;
+  });
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);
+  a.download='KDV_Perbandingan_EgiNugraha.csv';
+  a.click();
+}
+
+/* ══════════════════════════════════════════════════
+   RESET
+══════════════════════════════════════════════════ */
+function resetDir(dir) {
+  if(!confirm(`Reset semua data ${dir.toUpperCase()}?`)) return;
+  $(`sections-${dir}`).innerHTML = '';
+  secCounters[dir] = 0;
+  lastCalc[dir] = null;
+  $(`results-${dir}`).classList.remove('on');
+  $(`${dir}-err`).classList.remove('on');
+  $(`${dir}-warn`).classList.remove('on');
+  $(`outlier-panel-${dir}`).classList.remove('on');
+  DEFAULTS[dir].forEach(d => addSection(dir, d));
+}
+
+/* ══════════════════════════════════════════════════
+   TAB SWITCHING
+══════════════════════════════════════════════════ */
+function switchMain(id, btn) {
+  document.querySelectorAll('.main-pane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.main-tab').forEach(b=>b.classList.remove('on'));
+  $(`pane-${id}`).classList.add('on');
+  btn.classList.add('on');
+  if(id==='compare') runCompare();
+}
+
+function swRTab(dir, tab, btn) {
+  document.querySelectorAll(`#results-${dir} .rpane`).forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll(`#results-${dir} .rtab`).forEach(b=>b.classList.remove('on'));
+  $(`rtab-${dir}-${tab}`).classList.add('on');
+  btn.classList.add('on');
+}
+
+/* ══════════════════════════════════════════════════
+   INIT — Load default data
+══════════════════════════════════════════════════ */
+['pergi','pulang'].forEach(dir => {
+  DEFAULTS[dir].forEach(d => addSection(dir, d));
+});
+</script>
+</body>
+</html>
